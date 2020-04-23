@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from '@emotion/styled'
 
 const FormSection = styled.div`
@@ -23,13 +23,51 @@ const InputRadio = styled.input`
     margin: 0 1rem;
 `
 
+const Button = styled.button`
+    background: #00838f;
+    font-size: 16px;
+    width: 100%;
+    padding: 1rem;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: bold;
+    border: none;
+    transition: background-color .3s ease;
+    margin-top: 2rem;
+
+    &:hover {
+        background: #26c6da;
+        cursor: pointer;
+    }
+`
+
 const Form = () => {
+
+    const [ data, setData ] = useState({
+        brand: '',
+        year: '',
+        plan: ''
+    })
+
+    const { brand, year, plan } = data 
+
+    const handleFormInput = ({target}) => {
+        setData({
+            ...data,
+            [target.name] : target.value
+        })
+    }
+
     return (
         <form>
 
             <FormSection>
                 <Label>Brand</Label>
-                <Select>
+                <Select
+                    name='brand'
+                    value={brand}
+                    onChange={handleFormInput}
+                >
                     <option value="">-- Select --</option>
                     <option value="american">American</option>
                     <option value="european">European</option>
@@ -39,7 +77,11 @@ const Form = () => {
 
             <FormSection>
                 <Label>Year</Label>
-                <Select>
+                <Select
+                    name='year'
+                    value={year}
+                    onChange={handleFormInput}
+                >
                     <option value="">-- Select --</option>
                     <option value="2021">2021</option>
                     <option value="2020">2020</option>
@@ -60,15 +102,19 @@ const Form = () => {
                     type='radio'
                     name='plan'
                     value='basic'
+                    cheked={plan === 'basic'}
+                    onChange={handleFormInput}
                 /> Basic
                 <InputRadio
                     type='radio'
                     name='plan'
                     value='complete'
+                    checked={plan === 'complete'}
+                    onChange={handleFormInput}
                 /> Complete
             </FormSection>
 
-            <button>Calculate</button>
+            <Button>Calculate</Button>
 
         </form>
     )
